@@ -30,6 +30,31 @@ type Upstream struct {
 	CompletionPrice int64
 	Complete        func(ctx context.Context, req *ChatRequest) (*ChatResponse, error)
 	Stream          func(ctx context.Context, req *ChatRequest, fn func(*ChatResponse, bool) error) error
+
+	// CostOverride, when set, reports the authoritative microcent cost of
+	// the call after Complete or Stream returns. Meta-models whose cost is
+	// not tokens times price (fusion sums several generations) use it.
+	CostOverride func() int64
+}
+
+// Parent identifies the generation row a nested call belongs to, so
+// meta-models can insert linked child rows.
+type Parent struct {
+	GenID string
+	KeyID int64
+}
+
+type parentCtxKey struct{}
+
+// WithParent stashes the parent generation on the context.
+func WithParent(ctx context.Context, p Parent) context.Context {
+	return context.WithValue(ctx, parentCtxKey{}, p)
+}
+
+// ParentFrom returns the parent generation, if the call is nested.
+func ParentFrom(ctx context.Context) (Parent, bool) {
+	p, ok := ctx.Value(parentCtxKey{}).(Parent)
+	return p, ok
 }
 
 // Handler serves the /api/v1 inference surface.
@@ -118,12 +143,14 @@ func (h *Handler) ChatCompletions(w http.ResponseWriter, r *http.Request) {
 	}
 	start := time.Now()
 
+	callCtx := WithParent(r.Context(), Parent{GenID: gen.ID, KeyID: key.ID})
+
 	if req.Stream {
-		h.stream(w, r, &req, model, up, gen, start)
+		h.stream(w, callCtx, &req, model, up, gen, start)
 		return
 	}
 
-	resp, err := up.Complete(r.Context(), &req)
+	resp, err := up.Complete(callCtx, &req)
 	gen.LatencyMS = time.Since(start).Milliseconds()
 	if err != nil {
 		gen.Error = err.Error()
@@ -155,8 +182,13 @@ func (h *Handler) finishResponse(resp *ChatResponse, model *catalog.Model, up *U
 		if resp.Usage.CompletionTokens == 0 && !hasToolCalls(resp) {
 			gen.CostMicrocents = 0
 		}
+		if up.CostOverride != nil {
+			gen.CostMicrocents = up.CostOverride()
+		}
 		cost := float64(gen.CostMicrocents) / 1e8
 		resp.Usage.Cost = &cost
+	} else if up.CostOverride != nil {
+		gen.CostMicrocents = up.CostOverride()
 	}
 	if len(resp.Choices) > 0 {
 		gen.FinishReason = deref(resp.Choices[0].FinishReason)

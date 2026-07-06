@@ -1,6 +1,7 @@
 package gateway
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -12,7 +13,7 @@ import (
 
 // stream relays upstream SSE chunks to the client, restamping identity and
 // accumulating usage for the accounting row.
-func (h *Handler) stream(w http.ResponseWriter, r *http.Request, req *ChatRequest, model *catalog.Model, up *Upstream, gen *store.Generation, start time.Time) {
+func (h *Handler) stream(w http.ResponseWriter, ctx context.Context, req *ChatRequest, model *catalog.Model, up *Upstream, gen *store.Generation, start time.Time) {
 	fl, ok := w.(http.Flusher)
 	if !ok {
 		WriteError(w, http.StatusInternalServerError, "streaming unsupported", nil)
@@ -29,7 +30,7 @@ func (h *Handler) stream(w http.ResponseWriter, r *http.Request, req *ChatReques
 
 	var lastUsage *Usage
 	var finish string
-	streamErr := up.Stream(r.Context(), req, func(chunk *ChatResponse, done bool) error {
+	streamErr := up.Stream(ctx, req, func(chunk *ChatResponse, done bool) error {
 		if done {
 			return nil
 		}
@@ -71,6 +72,9 @@ func (h *Handler) stream(w http.ResponseWriter, r *http.Request, req *ChatReques
 			gen.CostMicrocents = 0
 		}
 	}
+	if up.CostOverride != nil {
+		gen.CostMicrocents = up.CostOverride()
+	}
 
 	if streamErr != nil {
 		gen.Error = streamErr.Error()
@@ -89,6 +93,9 @@ func (h *Handler) stream(w http.ResponseWriter, r *http.Request, req *ChatReques
 }
 
 func usageCost(u *Usage, up *Upstream) float64 {
+	if up.CostOverride != nil {
+		return float64(up.CostOverride()) / 1e8
+	}
 	mc := int64(u.PromptTokens)*up.PromptPrice + int64(u.CompletionTokens)*up.CompletionPrice
 	return float64(mc) / 1e8
 }

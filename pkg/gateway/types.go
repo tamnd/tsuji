@@ -44,6 +44,7 @@ type ChatRequest struct {
 	Transforms []string       `json:"transforms,omitempty"`
 	Reasoning  *Reasoning     `json:"reasoning,omitempty"`
 	Usage      *UsageOpts     `json:"usage,omitempty"`
+	Fusion     *FusionOpts    `json:"fusion,omitempty"`
 }
 
 // Message is one chat turn. Content is a string or an array of parts;
@@ -114,15 +115,51 @@ type UsageOpts struct {
 	Include bool `json:"include,omitempty"`
 }
 
+// FusionOpts overrides the fusion meta-model composition per request.
+// An explicit panel wins over the preset; the preset defaults to the one
+// implied by the model id (tsuji/fusion, -budget, -fast).
+type FusionOpts struct {
+	Preset string   `json:"preset,omitempty"`
+	Panel  []string `json:"panel,omitempty"`
+	Judge  string   `json:"judge,omitempty"`
+	Writer string   `json:"writer,omitempty"`
+}
+
+// FusionDetail reports what the fusion pipeline did: every panel answer,
+// the judge's comparison notes, and per-phase cost so clients can show a
+// breakdown. It rides on the response as a tsuji extension field.
+type FusionDetail struct {
+	Preset string        `json:"preset"`
+	Panel  []FusionPanel `json:"panel"`
+	Judge  FusionPhase   `json:"judge"`
+	Writer FusionPhase   `json:"writer"`
+}
+
+// FusionPanel is one panel member's answer (or its failure).
+type FusionPanel struct {
+	Model   string  `json:"model"`
+	Content string  `json:"content,omitempty"`
+	Error   string  `json:"error,omitempty"`
+	Cost    float64 `json:"cost"`
+}
+
+// FusionPhase is the judge or writer leg of a fusion run.
+type FusionPhase struct {
+	Model string  `json:"model"`
+	Notes string  `json:"notes,omitempty"`
+	Cost  float64 `json:"cost"`
+}
+
 // ChatResponse is the blocking chat.completion object.
 type ChatResponse struct {
-	ID       string   `json:"id"`
-	Object   string   `json:"object"`
-	Created  int64    `json:"created"`
-	Model    string   `json:"model"`
-	Provider string   `json:"provider,omitempty"`
-	Choices  []Choice `json:"choices"`
-	Usage    *Usage   `json:"usage,omitempty"`
+	ID       string        `json:"id"`
+	Object   string        `json:"object"`
+	Created  int64         `json:"created"`
+	Model    string        `json:"model"`
+	Provider string        `json:"provider,omitempty"`
+	Choices  []Choice      `json:"choices"`
+	Usage    *Usage        `json:"usage,omitempty"`
+	Fusion   *FusionDetail `json:"fusion,omitempty"`
 }
 
 // Choice is one completion choice.
