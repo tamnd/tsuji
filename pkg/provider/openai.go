@@ -55,6 +55,10 @@ func (a *OpenAI) do(ctx context.Context, ep Endpoint, req *gateway.ChatRequest, 
 		var m map[string]any
 		_ = json.Unmarshal(body, &m)
 		m["stream"] = true
+		// Always ask for the final usage frame; openai-compatible upstreams
+		// omit it unless stream_options requests it, and the accounting row
+		// and the client's cost display both need it.
+		m["stream_options"] = map[string]any{"include_usage": true}
 		body, _ = json.Marshal(m)
 	}
 	url := strings.TrimSuffix(ep.BaseURL, "/") + "/chat/completions"
