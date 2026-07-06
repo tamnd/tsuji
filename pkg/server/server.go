@@ -16,6 +16,7 @@ import (
 	"github.com/tamnd/tsuji/pkg/gateway"
 	"github.com/tamnd/tsuji/pkg/route"
 	"github.com/tamnd/tsuji/pkg/store"
+	"github.com/tamnd/tsuji/pkg/webui"
 )
 
 // Server is the tsuji HTTP server.
@@ -55,6 +56,7 @@ func New(cfg *config.Config) (*Server, error) {
 	mux.HandleFunc("GET /api/v1/providers", gw.Providers)
 	mux.HandleFunc("GET /api/v1/generation", gw.Generation)
 	mux.HandleFunc("GET /api/v1/key", gw.KeyInfo)
+	mux.Handle("/", webui.Handler())
 
 	s.http = &http.Server{
 		Addr:              cfg.Addr,
