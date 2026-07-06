@@ -61,6 +61,9 @@ var defaultBaseURLs = map[string]string{
 	"deepinfra": "https://api.deepinfra.com/v1/openai",
 	"xai":       "https://api.x.ai/v1",
 	"moonshot":  "https://api.moonshot.ai/v1",
+	"alibaba":   "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+	"zai":       "https://api.z.ai/api/paas/v4",
+	"minimax":   "https://api.minimax.io/v1",
 }
 
 // ErrNoEndpoint means no endpoint survived filtering and configuration.

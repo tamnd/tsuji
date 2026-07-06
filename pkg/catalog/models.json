@@ -1,65 +1,2258 @@
 [
-  {
-    "id": "openai/gpt-4o-mini",
-    "name": "OpenAI: GPT-4o-mini",
-    "created": 1721260800,
-    "description": "Small multimodal model from OpenAI, tuned for cheap high-volume traffic. Handles text and image input with solid tool calling.",
-    "context_length": 128000,
-    "architecture": {
-      "modality": "text+image->text",
-      "input_modalities": ["text", "image"],
-      "output_modalities": ["text"],
-      "tokenizer": "GPT",
-      "instruct_type": null
-    },
-    "pricing": { "prompt": "0.00000015", "completion": "0.0000006", "request": "0", "image": "0.000217" },
-    "top_provider": { "context_length": 128000, "max_completion_tokens": 16384, "is_moderated": true },
-    "per_request_limits": null,
-    "supported_parameters": ["tools", "tool_choice", "max_tokens", "temperature", "top_p", "stop", "frequency_penalty", "presence_penalty", "seed", "logit_bias", "logprobs", "top_logprobs", "response_format", "structured_outputs"],
-    "endpoints": [
-      { "provider": "openai", "dialect": "openai", "model": "gpt-4o-mini" }
-    ]
+ {
+  "id": "openai/gpt-5.5",
+  "name": "OpenAI: GPT-5.5",
+  "created": 1777051893,
+  "description": "OpenAI's current flagship. A reasoning-first generalist with a one-million-token window, strong tool use, and structured outputs. The default pick when you want the best OpenAI has without thinking about it.",
+  "context_length": 1050000,
+  "architecture": {
+   "modality": "file+image+text->text",
+   "input_modalities": [
+    "file",
+    "image",
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "GPT",
+   "instruct_type": null
   },
-  {
-    "id": "anthropic/claude-sonnet-5",
-    "name": "Anthropic: Claude Sonnet 5",
-    "created": 1758672000,
-    "description": "Anthropic's balanced flagship for coding and agentic work. Strong tool use, long context, and reasoning support.",
-    "context_length": 1000000,
-    "architecture": {
-      "modality": "text+image->text",
-      "input_modalities": ["text", "image", "file"],
-      "output_modalities": ["text"],
-      "tokenizer": "Claude",
-      "instruct_type": null
-    },
-    "pricing": { "prompt": "0.000003", "completion": "0.000015", "request": "0", "image": "0.0048" },
-    "top_provider": { "context_length": 1000000, "max_completion_tokens": 64000, "is_moderated": true },
-    "per_request_limits": null,
-    "supported_parameters": ["tools", "tool_choice", "max_tokens", "temperature", "top_p", "top_k", "stop", "reasoning", "include_reasoning", "structured_outputs"],
-    "endpoints": [
-      { "provider": "anthropic", "dialect": "openai", "model": "claude-sonnet-5" }
-    ]
+  "pricing": {
+   "prompt": "0.000005",
+   "completion": "0.00003",
+   "request": "0",
+   "image": "0"
   },
-  {
-    "id": "deepseek/deepseek-chat-v3.2",
-    "name": "DeepSeek: DeepSeek V3.2",
-    "created": 1743379200,
-    "description": "Open-weight MoE generalist with near-frontier quality at a fraction of the price. Good default for cost-sensitive pipelines.",
-    "context_length": 163840,
-    "architecture": {
-      "modality": "text->text",
-      "input_modalities": ["text"],
-      "output_modalities": ["text"],
-      "tokenizer": "DeepSeek",
-      "instruct_type": null
-    },
-    "pricing": { "prompt": "0.00000027", "completion": "0.0000004", "request": "0", "image": "0" },
-    "top_provider": { "context_length": 163840, "max_completion_tokens": 163840, "is_moderated": false },
-    "per_request_limits": null,
-    "supported_parameters": ["tools", "tool_choice", "max_tokens", "temperature", "top_p", "min_p", "stop", "frequency_penalty", "presence_penalty", "repetition_penalty", "seed", "logprobs", "response_format"],
-    "endpoints": [
-      { "provider": "deepseek", "dialect": "openai", "model": "deepseek-chat" }
-    ]
-  }
+  "top_provider": {
+   "context_length": 1050000,
+   "max_completion_tokens": 128000,
+   "is_moderated": true
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "max_completion_tokens",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "seed",
+   "structured_outputs",
+   "tool_choice",
+   "tools"
+  ],
+  "endpoints": [
+   {
+    "provider": "openai",
+    "dialect": "openai",
+    "model": "gpt-5.5"
+   }
+  ]
+ },
+ {
+  "id": "openai/gpt-5.5-pro",
+  "name": "OpenAI: GPT-5.5 Pro",
+  "created": 1777051896,
+  "description": "The slow, expensive, maximum-effort tier of GPT-5.5. Same window and toolset, but the model spends far more compute per answer. Meant for hard one-shot problems, not chat traffic.",
+  "context_length": 1050000,
+  "architecture": {
+   "modality": "file+image+text->text",
+   "input_modalities": [
+    "file",
+    "image",
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "GPT",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.00003",
+   "completion": "0.00018",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 1050000,
+   "max_completion_tokens": 128000,
+   "is_moderated": true
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "seed",
+   "structured_outputs",
+   "tool_choice",
+   "tools"
+  ],
+  "endpoints": [
+   {
+    "provider": "openai",
+    "dialect": "openai",
+    "model": "gpt-5.5-pro"
+   }
+  ]
+ },
+ {
+  "id": "openai/gpt-5.4",
+  "name": "OpenAI: GPT-5.4",
+  "created": 1772734352,
+  "description": "The previous OpenAI flagship, still widely deployed. Solid reasoning and tool calling at a quarter of the 5.5 price, with the same one-million-token window.",
+  "context_length": 1050000,
+  "architecture": {
+   "modality": "text+image+file->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "file"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "GPT",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000025",
+   "completion": "0.000015",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 1050000,
+   "max_completion_tokens": 128000,
+   "is_moderated": true
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "max_completion_tokens",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "seed",
+   "structured_outputs",
+   "tool_choice",
+   "tools"
+  ],
+  "endpoints": [
+   {
+    "provider": "openai",
+    "dialect": "openai",
+    "model": "gpt-5.4"
+   }
+  ]
+ },
+ {
+  "id": "openai/gpt-5.4-mini",
+  "name": "OpenAI: GPT-5.4 Mini",
+  "created": 1773748178,
+  "description": "A small, fast member of the GPT-5.4 family. Keeps reasoning and structured outputs but trades depth for speed and price. Good default for high-volume product features.",
+  "context_length": 400000,
+  "architecture": {
+   "modality": "file+image+text->text",
+   "input_modalities": [
+    "file",
+    "image",
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "GPT",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.00000075",
+   "completion": "0.0000045",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 400000,
+   "max_completion_tokens": 128000,
+   "is_moderated": true
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "max_completion_tokens",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "seed",
+   "structured_outputs",
+   "tool_choice",
+   "tools"
+  ],
+  "endpoints": [
+   {
+    "provider": "openai",
+    "dialect": "openai",
+    "model": "gpt-5.4-mini"
+   }
+  ]
+ },
+ {
+  "id": "openai/gpt-5.4-nano",
+  "name": "OpenAI: GPT-5.4 Nano",
+  "created": 1773748187,
+  "description": "The cheapest GPT-5.4 tier. Built for classification, extraction, and short answers at bulk prices where latency matters more than depth.",
+  "context_length": 400000,
+  "architecture": {
+   "modality": "file+image+text->text",
+   "input_modalities": [
+    "file",
+    "image",
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "GPT",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000002",
+   "completion": "0.00000125",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 400000,
+   "max_completion_tokens": 128000,
+   "is_moderated": true
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "max_completion_tokens",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "seed",
+   "structured_outputs",
+   "tool_choice",
+   "tools"
+  ],
+  "endpoints": [
+   {
+    "provider": "openai",
+    "dialect": "openai",
+    "model": "gpt-5.4-nano"
+   }
+  ]
+ },
+ {
+  "id": "openai/gpt-5.3-codex",
+  "name": "OpenAI: GPT-5.3-Codex",
+  "created": 1771959164,
+  "description": "A GPT-5.3 variant tuned for software engineering: repository-scale edits, long agentic coding sessions, and careful diff-following. Prefers doing the task over talking about it.",
+  "context_length": 400000,
+  "architecture": {
+   "modality": "text+image+file->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "file"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "GPT",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.00000175",
+   "completion": "0.000014",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 400000,
+   "max_completion_tokens": 128000,
+   "is_moderated": true
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "max_completion_tokens",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "seed",
+   "structured_outputs",
+   "tool_choice",
+   "tools"
+  ],
+  "endpoints": [
+   {
+    "provider": "openai",
+    "dialect": "openai",
+    "model": "gpt-5.3-codex"
+   }
+  ]
+ },
+ {
+  "id": "openai/gpt-4o",
+  "name": "OpenAI: GPT-4o",
+  "created": 1715558400,
+  "description": "OpenAI's 2024 multimodal workhorse. Text and image input with dependable tool calling. Superseded at the frontier but stable, well understood, and broadly compatible.",
+  "context_length": 128000,
+  "architecture": {
+   "modality": "text+image+file->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "file"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "GPT",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000025",
+   "completion": "0.00001",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 128000,
+   "max_completion_tokens": 16384,
+   "is_moderated": true
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "logit_bias",
+   "logprobs",
+   "max_completion_tokens",
+   "max_tokens",
+   "presence_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_logprobs",
+   "top_p",
+   "web_search_options"
+  ],
+  "endpoints": [
+   {
+    "provider": "openai",
+    "dialect": "openai",
+    "model": "gpt-4o"
+   }
+  ]
+ },
+ {
+  "id": "openai/gpt-4o-mini",
+  "name": "OpenAI: GPT-4o-mini",
+  "created": 1721260800,
+  "description": "The small sibling of GPT-4o and a long-time favorite for cheap pipelines. Fast, tool-capable, and priced for volume.",
+  "context_length": 128000,
+  "architecture": {
+   "modality": "text+image+file->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "file"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "GPT",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.00000015",
+   "completion": "0.0000006",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 128000,
+   "max_completion_tokens": 16384,
+   "is_moderated": true
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "logit_bias",
+   "logprobs",
+   "max_completion_tokens",
+   "max_tokens",
+   "presence_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_logprobs",
+   "top_p",
+   "web_search_options"
+  ],
+  "endpoints": [
+   {
+    "provider": "openai",
+    "dialect": "openai",
+    "model": "gpt-4o-mini"
+   }
+  ]
+ },
+ {
+  "id": "anthropic/claude-sonnet-5",
+  "name": "Anthropic: Claude Sonnet 5",
+  "created": 1782843083,
+  "description": "Anthropic's mainline model. Frontier-level coding and agentic work with a one-million-token window at mid-tier pricing. Extended thinking is available on request.",
+  "context_length": 1000000,
+  "architecture": {
+   "modality": "text+image+file->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "file"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Claude",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.000002",
+   "completion": "0.00001",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 1000000,
+   "max_completion_tokens": 128000,
+   "is_moderated": true
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "max_completion_tokens",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "stop",
+   "structured_outputs",
+   "tool_choice",
+   "tools",
+   "verbosity"
+  ],
+  "endpoints": [
+   {
+    "provider": "anthropic",
+    "dialect": "anthropic",
+    "model": "claude-sonnet-5"
+   }
+  ]
+ },
+ {
+  "id": "anthropic/claude-opus-4.8",
+  "name": "Anthropic: Claude Opus 4.8",
+  "created": 1779905091,
+  "description": "Anthropic's deepest reasoner. Slower and pricier than Sonnet, chosen when answer quality on hard problems is worth the wait. Strong on long autonomous coding runs.",
+  "context_length": 1000000,
+  "architecture": {
+   "modality": "text+image+file->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "file"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Claude",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.000005",
+   "completion": "0.000025",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 1000000,
+   "max_completion_tokens": 128000,
+   "is_moderated": true
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "stop",
+   "structured_outputs",
+   "tool_choice",
+   "tools",
+   "verbosity"
+  ],
+  "endpoints": [
+   {
+    "provider": "anthropic",
+    "dialect": "anthropic",
+    "model": "claude-opus-4-8"
+   }
+  ]
+ },
+ {
+  "id": "anthropic/claude-sonnet-4.6",
+  "name": "Anthropic: Claude Sonnet 4.6",
+  "created": 1771342990,
+  "description": "The previous Sonnet generation. Still a very capable coder and agent, kept around for teams pinned to its exact behavior.",
+  "context_length": 1000000,
+  "architecture": {
+   "modality": "text+image+file->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "file"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Claude",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.000003",
+   "completion": "0.000015",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 1000000,
+   "max_completion_tokens": 128000,
+   "is_moderated": true
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "max_completion_tokens",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_p",
+   "verbosity"
+  ],
+  "endpoints": [
+   {
+    "provider": "anthropic",
+    "dialect": "anthropic",
+    "model": "claude-sonnet-4-6"
+   }
+  ]
+ },
+ {
+  "id": "anthropic/claude-haiku-4.5",
+  "name": "Anthropic: Claude Haiku 4.5",
+  "created": 1760547638,
+  "description": "Anthropic's fast tier. Near-Sonnet quality on everyday tasks at a fraction of the price and latency, with vision and tool use included.",
+  "context_length": 200000,
+  "architecture": {
+   "modality": "text+image+file->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "file"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Claude",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.000001",
+   "completion": "0.000005",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 200000,
+   "max_completion_tokens": 64000,
+   "is_moderated": true
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "anthropic",
+    "dialect": "anthropic",
+    "model": "claude-haiku-4-5"
+   }
+  ]
+ },
+ {
+  "id": "google/gemini-3.5-flash",
+  "name": "Google: Gemini 3.5 Flash",
+  "created": 1779193800,
+  "description": "Google's high-throughput generalist. Text, image, audio, and video input over a million-token window, with reasoning on tap. The price-performance pick of the Gemini line.",
+  "context_length": 1048576,
+  "architecture": {
+   "modality": "text+image+video+file+audio->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "video",
+    "file",
+    "audio"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Gemini",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000015",
+   "completion": "0.000009",
+   "request": "0",
+   "image": "0.0000015"
+  },
+  "top_provider": {
+   "context_length": 1048576,
+   "max_completion_tokens": 65536,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "google",
+    "dialect": "openai",
+    "model": "gemini-3.5-flash"
+   }
+  ]
+ },
+ {
+  "id": "google/gemini-3.1-pro-preview",
+  "name": "Google: Gemini 3.1 Pro Preview",
+  "created": 1771509627,
+  "description": "The large Gemini, in preview. Deep multimodal reasoning over huge contexts; the choice when Flash isn't enough and cost is secondary.",
+  "context_length": 1048576,
+  "architecture": {
+   "modality": "audio+file+image+text+video->text",
+   "input_modalities": [
+    "audio",
+    "file",
+    "image",
+    "text",
+    "video"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Gemini",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.000002",
+   "completion": "0.000012",
+   "request": "0",
+   "image": "0.000002"
+  },
+  "top_provider": {
+   "context_length": 1048576,
+   "max_completion_tokens": 65536,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "google",
+    "dialect": "openai",
+    "model": "gemini-3.1-pro-preview"
+   }
+  ]
+ },
+ {
+  "id": "google/gemini-3-flash-preview",
+  "name": "Google: Gemini 3 Flash Preview",
+  "created": 1765987078,
+  "description": "Preview build of the Gemini 3 Flash line. Fast multimodal inference at low cost, useful for testing against the newer stable Flash releases.",
+  "context_length": 1048576,
+  "architecture": {
+   "modality": "text+image+file+audio+video->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "file",
+    "audio",
+    "video"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Gemini",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000005",
+   "completion": "0.000003",
+   "request": "0",
+   "image": "0.0000005"
+  },
+  "top_provider": {
+   "context_length": 1048576,
+   "max_completion_tokens": 65535,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "google",
+    "dialect": "openai",
+    "model": "gemini-3-flash-preview"
+   }
+  ]
+ },
+ {
+  "id": "google/gemini-2.5-flash",
+  "name": "Google: Gemini 2.5 Flash",
+  "created": 1750172488,
+  "description": "The 2025 Flash generation. Cheap, quick, fully multimodal, and battle-tested in production; a safe floor for cost-sensitive workloads.",
+  "context_length": 1048576,
+  "architecture": {
+   "modality": "file+image+text+audio+video->text",
+   "input_modalities": [
+    "file",
+    "image",
+    "text",
+    "audio",
+    "video"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Gemini",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000003",
+   "completion": "0.0000025",
+   "request": "0",
+   "image": "0.0000003"
+  },
+  "top_provider": {
+   "context_length": 1048576,
+   "max_completion_tokens": 65535,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "google",
+    "dialect": "openai",
+    "model": "gemini-2.5-flash"
+   }
+  ]
+ },
+ {
+  "id": "deepseek/deepseek-v4-pro",
+  "name": "DeepSeek: DeepSeek V4 Pro",
+  "created": 1777000679,
+  "description": "DeepSeek's flagship MoE. Frontier-adjacent reasoning and coding at prices an order of magnitude below the big labs, with a million-token window and huge output budgets.",
+  "context_length": 1048576,
+  "architecture": {
+   "modality": "text->text",
+   "input_modalities": [
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "DeepSeek",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.000000435",
+   "completion": "0.00000087",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 1048576,
+   "max_completion_tokens": 384000,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "include_reasoning",
+   "logit_bias",
+   "logprobs",
+   "max_tokens",
+   "min_p",
+   "presence_penalty",
+   "reasoning",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "deepseek",
+    "dialect": "openai",
+    "model": "deepseek-v4-pro"
+   }
+  ]
+ },
+ {
+  "id": "deepseek/deepseek-v4-flash",
+  "name": "DeepSeek: DeepSeek V4 Flash",
+  "created": 1777000666,
+  "description": "The fast V4 tier. Aggressively priced for bulk generation and simple agent steps while keeping the V4 family's tool calling.",
+  "context_length": 1048576,
+  "architecture": {
+   "modality": "text->text",
+   "input_modalities": [
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "DeepSeek",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.00000009",
+   "completion": "0.00000018",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 1048576,
+   "max_completion_tokens": 16384,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "include_reasoning",
+   "logit_bias",
+   "logprobs",
+   "max_tokens",
+   "min_p",
+   "presence_penalty",
+   "reasoning",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "deepseek",
+    "dialect": "openai",
+    "model": "deepseek-v4-flash"
+   }
+  ]
+ },
+ {
+  "id": "deepseek/deepseek-v3.2",
+  "name": "DeepSeek: DeepSeek V3.2",
+  "created": 1764594642,
+  "description": "The V3.2 sparse-attention release that first made long context cheap. Still a strong value pick for reasoning-light workloads.",
+  "context_length": 131072,
+  "architecture": {
+   "modality": "text->text",
+   "input_modalities": [
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "DeepSeek",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000002288",
+   "completion": "0.0000003432",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 131072,
+   "max_completion_tokens": 64000,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "include_reasoning",
+   "logit_bias",
+   "logprobs",
+   "max_tokens",
+   "min_p",
+   "presence_penalty",
+   "reasoning",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "deepseek",
+    "dialect": "openai",
+    "model": "deepseek-v3.2"
+   },
+   {
+    "provider": "deepinfra",
+    "dialect": "openai",
+    "model": "deepseek-ai/DeepSeek-V3.2",
+    "quantization": "fp8"
+   }
+  ]
+ },
+ {
+  "id": "deepseek/deepseek-r1-0528",
+  "name": "DeepSeek: R1 0528",
+  "created": 1748455170,
+  "description": "The updated R1 reasoner with open weights. Emits explicit chain-of-thought and remains a favorite for math and verification tasks on a budget.",
+  "context_length": 163840,
+  "architecture": {
+   "modality": "text->text",
+   "input_modalities": [
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "DeepSeek",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000005",
+   "completion": "0.00000215",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 163840,
+   "max_completion_tokens": 32768,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "include_reasoning",
+   "logit_bias",
+   "logprobs",
+   "max_tokens",
+   "min_p",
+   "presence_penalty",
+   "reasoning",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "deepseek",
+    "dialect": "openai",
+    "model": "deepseek-reasoner"
+   },
+   {
+    "provider": "together",
+    "dialect": "openai",
+    "model": "deepseek-ai/DeepSeek-R1-0528",
+    "quantization": "fp8",
+    "prompt_price": "0.000003",
+    "completion_price": "0.000007"
+   },
+   {
+    "provider": "deepinfra",
+    "dialect": "openai",
+    "model": "deepseek-ai/DeepSeek-R1-0528",
+    "quantization": "fp8"
+   }
+  ]
+ },
+ {
+  "id": "meta-llama/llama-4-maverick",
+  "name": "Meta: Llama 4 Maverick",
+  "created": 1743881822,
+  "description": "Meta's larger Llama 4 MoE with native image input. Open weights served by several fast hosts; a solid open-model default for tool-using apps.",
+  "context_length": 1048576,
+  "architecture": {
+   "modality": "text+image->text",
+   "input_modalities": [
+    "text",
+    "image"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Llama4",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.00000015",
+   "completion": "0.0000006",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 1048576,
+   "max_completion_tokens": 16384,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "logit_bias",
+   "logprobs",
+   "max_tokens",
+   "min_p",
+   "presence_penalty",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "groq",
+    "dialect": "openai",
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "context_length": 131072
+   },
+   {
+    "provider": "together",
+    "dialect": "openai",
+    "model": "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
+    "quantization": "fp8",
+    "prompt_price": "0.00000027",
+    "completion_price": "0.00000085"
+   },
+   {
+    "provider": "deepinfra",
+    "dialect": "openai",
+    "model": "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
+    "quantization": "fp8"
+   }
+  ]
+ },
+ {
+  "id": "meta-llama/llama-4-scout",
+  "name": "Meta: Llama 4 Scout",
+  "created": 1743881519,
+  "description": "The small Llama 4 with an extreme ten-million-token window. Open weights; useful for long-document work where price beats polish.",
+  "context_length": 10000000,
+  "architecture": {
+   "modality": "text+image->text",
+   "input_modalities": [
+    "text",
+    "image"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Llama4",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000001",
+   "completion": "0.0000003",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 10000000,
+   "max_completion_tokens": 16384,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "logit_bias",
+   "max_tokens",
+   "min_p",
+   "presence_penalty",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "groq",
+    "dialect": "openai",
+    "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+    "context_length": 131072
+   },
+   {
+    "provider": "together",
+    "dialect": "openai",
+    "model": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+    "quantization": "fp16",
+    "prompt_price": "0.00000018",
+    "completion_price": "0.00000059"
+   },
+   {
+    "provider": "deepinfra",
+    "dialect": "openai",
+    "model": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+    "quantization": "fp8"
+   }
+  ]
+ },
+ {
+  "id": "meta-llama/llama-3.3-70b-instruct",
+  "name": "Meta: Llama 3.3 70B Instruct",
+  "created": 1733506137,
+  "description": "The most deployed open dense model of its generation. Predictable, well-tooled, and available from many providers at commodity prices.",
+  "context_length": 131072,
+  "architecture": {
+   "modality": "text->text",
+   "input_modalities": [
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Llama3",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000001",
+   "completion": "0.00000032",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 131072,
+   "max_completion_tokens": 16384,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "logit_bias",
+   "logprobs",
+   "max_tokens",
+   "min_p",
+   "presence_penalty",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "groq",
+    "dialect": "openai",
+    "model": "llama-3.3-70b-versatile",
+    "context_length": 131072
+   },
+   {
+    "provider": "together",
+    "dialect": "openai",
+    "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+    "quantization": "fp8",
+    "prompt_price": "0.00000088",
+    "completion_price": "0.00000088"
+   },
+   {
+    "provider": "deepinfra",
+    "dialect": "openai",
+    "model": "meta-llama/Llama-3.3-70B-Instruct",
+    "quantization": "bf16"
+   }
+  ]
+ },
+ {
+  "id": "meta-llama/llama-3.1-8b-instruct",
+  "name": "Meta: Llama 3.1 8B Instruct",
+  "created": 1721692800,
+  "description": "A small open model that punches above its size for extraction and routing tasks. Nearly free at scale.",
+  "context_length": 131072,
+  "architecture": {
+   "modality": "text->text",
+   "input_modalities": [
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Llama3",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.00000002",
+   "completion": "0.00000003",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 131072,
+   "max_completion_tokens": 16384,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "logit_bias",
+   "logprobs",
+   "max_tokens",
+   "min_p",
+   "presence_penalty",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "groq",
+    "dialect": "openai",
+    "model": "llama-3.1-8b-instant",
+    "context_length": 131072
+   },
+   {
+    "provider": "deepinfra",
+    "dialect": "openai",
+    "model": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+    "quantization": "bf16"
+   }
+  ]
+ },
+ {
+  "id": "mistralai/mistral-large-2512",
+  "name": "Mistral: Mistral Large 3 2512",
+  "created": 1764624472,
+  "description": "Mistral's third-generation Large. European-hosted frontier-class generalist with vision and clean function calling.",
+  "context_length": 262144,
+  "architecture": {
+   "modality": "text+image+file->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "file"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Mistral",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000005",
+   "completion": "0.0000015",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 262144,
+   "max_completion_tokens": null,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "max_tokens",
+   "presence_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "mistral",
+    "dialect": "openai",
+    "model": "mistral-large-2512"
+   }
+  ]
+ },
+ {
+  "id": "mistralai/mistral-medium-3-5",
+  "name": "Mistral: Mistral Medium 3.5",
+  "created": 1777570439,
+  "description": "The current Mistral Medium: most of Large's quality with reasoning support at a mid price. The default Mistral pick.",
+  "context_length": 262144,
+  "architecture": {
+   "modality": "text+image+file->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "file"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Mistral",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000015",
+   "completion": "0.0000075",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 262144,
+   "max_completion_tokens": null,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "include_reasoning",
+   "max_tokens",
+   "presence_penalty",
+   "reasoning",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "mistral",
+    "dialect": "openai",
+    "model": "mistral-medium-3-5"
+   }
+  ]
+ },
+ {
+  "id": "mistralai/mistral-small-2603",
+  "name": "Mistral: Mistral Small 4",
+  "created": 1773695685,
+  "description": "Mistral Small 4. Compact, quick, vision-capable, and cheap enough for high-volume product use.",
+  "context_length": 262144,
+  "architecture": {
+   "modality": "text+image->text",
+   "input_modalities": [
+    "text",
+    "image"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Mistral",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.00000015",
+   "completion": "0.0000006",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 262144,
+   "max_completion_tokens": null,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "include_reasoning",
+   "max_tokens",
+   "presence_penalty",
+   "reasoning",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "mistral",
+    "dialect": "openai",
+    "model": "mistral-small-2603"
+   }
+  ]
+ },
+ {
+  "id": "mistralai/codestral-2508",
+  "name": "Mistral: Codestral 2508",
+  "created": 1754079630,
+  "description": "Mistral's code specialist. Fill-in-the-middle and long-context repository awareness, tuned for IDE latency.",
+  "context_length": 256000,
+  "architecture": {
+   "modality": "text+file->text",
+   "input_modalities": [
+    "text",
+    "file"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Mistral",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000003",
+   "completion": "0.0000009",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 256000,
+   "max_completion_tokens": null,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "max_tokens",
+   "presence_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "mistral",
+    "dialect": "openai",
+    "model": "codestral-2508"
+   }
+  ]
+ },
+ {
+  "id": "qwen/qwen3.7-max",
+  "name": "Qwen: Qwen3.7 Max",
+  "created": 1779376861,
+  "description": "Alibaba's flagship Qwen. Frontier-class reasoning and multilingual strength over a million-token window, API-only.",
+  "context_length": 1000000,
+  "architecture": {
+   "modality": "text->text",
+   "input_modalities": [
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Qwen",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.00000125",
+   "completion": "0.00000375",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 1000000,
+   "max_completion_tokens": 65536,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "logprobs",
+   "max_tokens",
+   "presence_penalty",
+   "reasoning",
+   "response_format",
+   "seed",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "alibaba",
+    "dialect": "openai",
+    "model": "qwen3.7-max"
+   }
+  ]
+ },
+ {
+  "id": "qwen/qwen3.6-plus",
+  "name": "Qwen: Qwen3.6 Plus",
+  "created": 1775133557,
+  "description": "The balanced Qwen tier with text, image, and video input. Strong quality per dollar for multilingual and agentic work.",
+  "context_length": 1000000,
+  "architecture": {
+   "modality": "text+image+video->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "video"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Qwen3",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.000000325",
+   "completion": "0.00000195",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 1000000,
+   "max_completion_tokens": 65536,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "logprobs",
+   "max_tokens",
+   "presence_penalty",
+   "reasoning",
+   "response_format",
+   "seed",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "alibaba",
+    "dialect": "openai",
+    "model": "qwen3.6-plus"
+   }
+  ]
+ },
+ {
+  "id": "qwen/qwen3.5-27b",
+  "name": "Qwen: Qwen3.5-27B",
+  "created": 1772053810,
+  "description": "An open-weight multimodal Qwen that fits on a single node. Popular self-host choice with wide host coverage.",
+  "context_length": 262144,
+  "architecture": {
+   "modality": "text+image+video->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "video"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Qwen3",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.000000195",
+   "completion": "0.00000156",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 262144,
+   "max_completion_tokens": 65536,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "include_reasoning",
+   "logit_bias",
+   "logprobs",
+   "max_tokens",
+   "min_p",
+   "presence_penalty",
+   "reasoning",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "deepinfra",
+    "dialect": "openai",
+    "model": "Qwen/Qwen3.5-27B",
+    "quantization": "fp8"
+   },
+   {
+    "provider": "fireworks",
+    "dialect": "openai",
+    "model": "accounts/fireworks/models/qwen3p5-27b",
+    "quantization": "fp8",
+    "prompt_price": "0.00000022",
+    "completion_price": "0.0000016"
+   }
+  ]
+ },
+ {
+  "id": "x-ai/grok-4.3",
+  "name": "xAI: Grok 4.3",
+  "created": 1777591821,
+  "description": "xAI's current mainline model. Sharp reasoning, live-web awareness through its native stack, and a million-token window.",
+  "context_length": 1000000,
+  "architecture": {
+   "modality": "text+image+file->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "file"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Grok",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.00000125",
+   "completion": "0.0000025",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 1000000,
+   "max_completion_tokens": null,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "include_reasoning",
+   "logprobs",
+   "max_tokens",
+   "presence_penalty",
+   "reasoning",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "xai",
+    "dialect": "openai",
+    "model": "grok-4.3"
+   }
+  ]
+ },
+ {
+  "id": "x-ai/grok-4.20",
+  "name": "xAI: Grok 4.20",
+  "created": 1774979019,
+  "description": "The long-context Grok, stretching to two million tokens. Same pricing as 4.3; pick it for giant single-shot contexts.",
+  "context_length": 2000000,
+  "architecture": {
+   "modality": "text+image+file->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "file"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Grok",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.00000125",
+   "completion": "0.0000025",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 2000000,
+   "max_completion_tokens": null,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "include_reasoning",
+   "logprobs",
+   "max_tokens",
+   "reasoning",
+   "response_format",
+   "seed",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "xai",
+    "dialect": "openai",
+    "model": "grok-4.20"
+   }
+  ]
+ },
+ {
+  "id": "moonshotai/kimi-k2.6",
+  "name": "MoonshotAI: Kimi K2.6",
+  "created": 1776699402,
+  "description": "Moonshot's newest K2. A trillion-parameter-class MoE with vision, strong agentic coding, and open weights on several hosts.",
+  "context_length": 262144,
+  "architecture": {
+   "modality": "text+image->text",
+   "input_modalities": [
+    "text",
+    "image"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Other",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.00000066",
+   "completion": "0.00000341",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 262144,
+   "max_completion_tokens": 262144,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "include_reasoning",
+   "logit_bias",
+   "logprobs",
+   "max_tokens",
+   "min_p",
+   "parallel_tool_calls",
+   "presence_penalty",
+   "reasoning",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "moonshot",
+    "dialect": "openai",
+    "model": "kimi-k2.6"
+   },
+   {
+    "provider": "deepinfra",
+    "dialect": "openai",
+    "model": "moonshotai/Kimi-K2.6",
+    "quantization": "fp8"
+   }
+  ]
+ },
+ {
+  "id": "moonshotai/kimi-k2-thinking",
+  "name": "MoonshotAI: Kimi K2 Thinking",
+  "created": 1762440622,
+  "description": "The reasoning variant of Kimi K2. Long, explicit thinking traces and durable multi-step tool use; open weights.",
+  "context_length": 262144,
+  "architecture": {
+   "modality": "text->text",
+   "input_modalities": [
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Other",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000006",
+   "completion": "0.0000025",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 262144,
+   "max_completion_tokens": 100352,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "include_reasoning",
+   "logprobs",
+   "max_tokens",
+   "presence_penalty",
+   "reasoning",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "moonshot",
+    "dialect": "openai",
+    "model": "kimi-k2-thinking"
+   },
+   {
+    "provider": "together",
+    "dialect": "openai",
+    "model": "moonshotai/Kimi-K2-Thinking",
+    "quantization": "fp8",
+    "prompt_price": "0.0000012",
+    "completion_price": "0.000004"
+   },
+   {
+    "provider": "deepinfra",
+    "dialect": "openai",
+    "model": "moonshotai/Kimi-K2-Thinking",
+    "quantization": "fp8"
+   }
+  ]
+ },
+ {
+  "id": "z-ai/glm-5",
+  "name": "Z.ai: GLM 5",
+  "created": 1770829182,
+  "description": "Zhipu's GLM 5 flagship. Competitive coding and agent performance with open weights and very low hosted prices.",
+  "context_length": 202752,
+  "architecture": {
+   "modality": "text->text",
+   "input_modalities": [
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Other",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000006",
+   "completion": "0.00000192",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 202752,
+   "max_completion_tokens": null,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "include_reasoning",
+   "logit_bias",
+   "logprobs",
+   "max_tokens",
+   "min_p",
+   "presence_penalty",
+   "reasoning",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "zai",
+    "dialect": "openai",
+    "model": "glm-5"
+   },
+   {
+    "provider": "deepinfra",
+    "dialect": "openai",
+    "model": "zai-org/GLM-5",
+    "quantization": "fp8"
+   }
+  ]
+ },
+ {
+  "id": "z-ai/glm-4.7",
+  "name": "Z.ai: GLM 4.7",
+  "created": 1766378014,
+  "description": "The prior GLM generation, still a bargain for coding assistants and bulk generation.",
+  "context_length": 202752,
+  "architecture": {
+   "modality": "text->text",
+   "input_modalities": [
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Other",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000004",
+   "completion": "0.00000175",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 202752,
+   "max_completion_tokens": 131072,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "include_reasoning",
+   "logit_bias",
+   "logprobs",
+   "max_tokens",
+   "min_p",
+   "presence_penalty",
+   "reasoning",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "zai",
+    "dialect": "openai",
+    "model": "glm-4.7"
+   },
+   {
+    "provider": "deepinfra",
+    "dialect": "openai",
+    "model": "zai-org/GLM-4.7",
+    "quantization": "fp8"
+   }
+  ]
+ },
+ {
+  "id": "minimax/minimax-m3",
+  "name": "MiniMax: MiniMax M3",
+  "created": 1780245374,
+  "description": "MiniMax's M3 MoE with text, image, and video input and a half-million-token output ceiling. Priced to undercut everything comparable.",
+  "context_length": 1048576,
+  "architecture": {
+   "modality": "text+image+video->text",
+   "input_modalities": [
+    "text",
+    "image",
+    "video"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Other",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.0000003",
+   "completion": "0.0000012",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 1048576,
+   "max_completion_tokens": 512000,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "include_reasoning",
+   "logit_bias",
+   "logprobs",
+   "max_tokens",
+   "min_p",
+   "presence_penalty",
+   "reasoning",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "minimax",
+    "dialect": "openai",
+    "model": "minimax-m3"
+   },
+   {
+    "provider": "deepinfra",
+    "dialect": "openai",
+    "model": "MiniMaxAI/MiniMax-M3",
+    "quantization": "fp8"
+   }
+  ]
+ },
+ {
+  "id": "nvidia/nemotron-3-super-120b-a12b",
+  "name": "NVIDIA: Nemotron 3 Super",
+  "created": 1773245239,
+  "description": "NVIDIA's open Nemotron 3 Super, a sparse 120B tuned for agentic reasoning. Cheap hosted capacity and permissive licensing.",
+  "context_length": 1000000,
+  "architecture": {
+   "modality": "text->text",
+   "input_modalities": [
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Other",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0.00000008",
+   "completion": "0.00000045",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 1000000,
+   "max_completion_tokens": null,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "frequency_penalty",
+   "include_reasoning",
+   "logit_bias",
+   "logprobs",
+   "max_tokens",
+   "min_p",
+   "presence_penalty",
+   "reasoning",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "deepinfra",
+    "dialect": "openai",
+    "model": "nvidia/Nemotron-3-Super-120B-A12B",
+    "quantization": "fp8"
+   },
+   {
+    "provider": "together",
+    "dialect": "openai",
+    "model": "nvidia/Nemotron-3-Super-120B-A12B",
+    "quantization": "fp8",
+    "prompt_price": "0.0000001",
+    "completion_price": "0.0000005"
+   }
+  ]
+ }
 ]
