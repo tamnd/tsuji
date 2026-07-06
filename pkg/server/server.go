@@ -11,7 +11,10 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/tamnd/tsuji/pkg/catalog"
 	"github.com/tamnd/tsuji/pkg/config"
+	"github.com/tamnd/tsuji/pkg/gateway"
+	"github.com/tamnd/tsuji/pkg/route"
 	"github.com/tamnd/tsuji/pkg/store"
 )
 
@@ -32,9 +35,24 @@ func New(cfg *config.Config) (*Server, error) {
 		return nil, err
 	}
 
+	cat, err := catalog.Load()
+	if err != nil {
+		st.Close()
+		return nil, err
+	}
+
 	s := &Server{cfg: cfg, store: st}
+	gw := &gateway.Handler{
+		Store:   st,
+		Catalog: cat,
+		Dialer:  route.New(cfg),
+	}
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", s.handleHealthz)
+	mux.HandleFunc("POST /api/v1/chat/completions", gw.ChatCompletions)
+	mux.HandleFunc("GET /api/v1/models", gw.Models)
+	mux.HandleFunc("GET /api/v1/generation", gw.Generation)
+	mux.HandleFunc("GET /api/v1/key", gw.KeyInfo)
 
 	s.http = &http.Server{
 		Addr:              cfg.Addr,

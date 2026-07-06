@@ -1,0 +1,65 @@
+[
+  {
+    "id": "openai/gpt-4o-mini",
+    "name": "OpenAI: GPT-4o-mini",
+    "created": 1721260800,
+    "description": "Small multimodal model from OpenAI, tuned for cheap high-volume traffic. Handles text and image input with solid tool calling.",
+    "context_length": 128000,
+    "architecture": {
+      "modality": "text+image->text",
+      "input_modalities": ["text", "image"],
+      "output_modalities": ["text"],
+      "tokenizer": "GPT",
+      "instruct_type": null
+    },
+    "pricing": { "prompt": "0.00000015", "completion": "0.0000006", "request": "0", "image": "0.000217" },
+    "top_provider": { "context_length": 128000, "max_completion_tokens": 16384, "is_moderated": true },
+    "per_request_limits": null,
+    "supported_parameters": ["tools", "tool_choice", "max_tokens", "temperature", "top_p", "stop", "frequency_penalty", "presence_penalty", "seed", "logit_bias", "logprobs", "top_logprobs", "response_format", "structured_outputs"],
+    "endpoints": [
+      { "provider": "openai", "dialect": "openai", "model": "gpt-4o-mini" }
+    ]
+  },
+  {
+    "id": "anthropic/claude-sonnet-5",
+    "name": "Anthropic: Claude Sonnet 5",
+    "created": 1758672000,
+    "description": "Anthropic's balanced flagship for coding and agentic work. Strong tool use, long context, and reasoning support.",
+    "context_length": 1000000,
+    "architecture": {
+      "modality": "text+image->text",
+      "input_modalities": ["text", "image", "file"],
+      "output_modalities": ["text"],
+      "tokenizer": "Claude",
+      "instruct_type": null
+    },
+    "pricing": { "prompt": "0.000003", "completion": "0.000015", "request": "0", "image": "0.0048" },
+    "top_provider": { "context_length": 1000000, "max_completion_tokens": 64000, "is_moderated": true },
+    "per_request_limits": null,
+    "supported_parameters": ["tools", "tool_choice", "max_tokens", "temperature", "top_p", "top_k", "stop", "reasoning", "include_reasoning", "structured_outputs"],
+    "endpoints": [
+      { "provider": "anthropic", "dialect": "openai", "model": "claude-sonnet-5" }
+    ]
+  },
+  {
+    "id": "deepseek/deepseek-chat-v3.2",
+    "name": "DeepSeek: DeepSeek V3.2",
+    "created": 1743379200,
+    "description": "Open-weight MoE generalist with near-frontier quality at a fraction of the price. Good default for cost-sensitive pipelines.",
+    "context_length": 163840,
+    "architecture": {
+      "modality": "text->text",
+      "input_modalities": ["text"],
+      "output_modalities": ["text"],
+      "tokenizer": "DeepSeek",
+      "instruct_type": null
+    },
+    "pricing": { "prompt": "0.00000027", "completion": "0.0000004", "request": "0", "image": "0" },
+    "top_provider": { "context_length": 163840, "max_completion_tokens": 163840, "is_moderated": false },
+    "per_request_limits": null,
+    "supported_parameters": ["tools", "tool_choice", "max_tokens", "temperature", "top_p", "min_p", "stop", "frequency_penalty", "presence_penalty", "repetition_penalty", "seed", "logprobs", "response_format"],
+    "endpoints": [
+      { "provider": "deepseek", "dialect": "openai", "model": "deepseek-chat" }
+    ]
+  }
+]

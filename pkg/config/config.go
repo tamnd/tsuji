@@ -6,6 +6,7 @@ package config
 import (
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // Config holds everything the server needs to start.
@@ -43,6 +44,31 @@ func Load() (*Config, error) {
 	}
 	if v := os.Getenv("TSUJI_DB"); v != "" {
 		cfg.DBPath = v
+	}
+	// Provider keys: TSUJI_PROVIDER_<SLUG>_KEY and optional _BASE_URL,
+	// e.g. TSUJI_PROVIDER_OPENAI_KEY, TSUJI_PROVIDER_DEEPSEEK_BASE_URL.
+	for _, kv := range os.Environ() {
+		name, val, _ := strings.Cut(kv, "=")
+		rest, ok := strings.CutPrefix(name, "TSUJI_PROVIDER_")
+		if !ok || val == "" {
+			continue
+		}
+		slug, field := "", ""
+		switch {
+		case strings.HasSuffix(rest, "_KEY"):
+			slug, field = strings.TrimSuffix(rest, "_KEY"), "key"
+		case strings.HasSuffix(rest, "_BASE_URL"):
+			slug, field = strings.TrimSuffix(rest, "_BASE_URL"), "base"
+		default:
+			continue
+		}
+		p := cfg.Providers[strings.ToLower(slug)]
+		if field == "key" {
+			p.APIKey = val
+		} else {
+			p.BaseURL = val
+		}
+		cfg.Providers[strings.ToLower(slug)] = p
 	}
 	return cfg, nil
 }
