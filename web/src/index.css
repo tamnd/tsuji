@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+@theme {
+  --color-bg: #0a0a0a;
+  --color-surface: #131316;
+  --color-raise: #1a1a1f;
+  --color-edge: #26262b;
+  --color-ink: #e4e4e7;
+  --color-mute: #9f9fa9;
+  --color-dim: #6b6b74;
+  --color-accent: #6366f1;
+  --color-accent-soft: #818cf8;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
+}
+
+html {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 40%, transparent);
+}

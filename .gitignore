@@ -6,4 +6,7 @@
 *.db-shm
 node_modules/
 web/dist/
+pkg/webui/dist/*
+!pkg/webui/dist/index.html
 .DS_Store
+*.tsbuildinfo
