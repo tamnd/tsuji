@@ -51,6 +51,8 @@ func New(cfg *config.Config) (*Server, error) {
 	mux.HandleFunc("GET /healthz", s.handleHealthz)
 	mux.HandleFunc("POST /api/v1/chat/completions", gw.ChatCompletions)
 	mux.HandleFunc("GET /api/v1/models", gw.Models)
+	mux.HandleFunc("GET /api/v1/models/{author}/{slug}/endpoints", gw.ModelEndpoints)
+	mux.HandleFunc("GET /api/v1/providers", gw.Providers)
 	mux.HandleFunc("GET /api/v1/generation", gw.Generation)
 	mux.HandleFunc("GET /api/v1/key", gw.KeyInfo)
 

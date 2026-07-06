@@ -76,6 +76,8 @@ func newTestServer(t *testing.T) (baseURL, apiKey string) {
 	mux := http.NewServeMux()
 	mux.HandleFunc("POST /api/v1/chat/completions", h.ChatCompletions)
 	mux.HandleFunc("GET /api/v1/models", h.Models)
+	mux.HandleFunc("GET /api/v1/models/{author}/{slug}/endpoints", h.ModelEndpoints)
+	mux.HandleFunc("GET /api/v1/providers", h.Providers)
 	mux.HandleFunc("GET /api/v1/generation", h.Generation)
 	mux.HandleFunc("GET /api/v1/key", h.KeyInfo)
 	srv := httptest.NewServer(mux)
@@ -225,7 +227,7 @@ func TestErrors(t *testing.T) {
 		{"unknown model", key, `{"model":"nope/nope","messages":[{"role":"user","content":"x"}]}`, http.StatusNotFound},
 		{"missing model", key, `{"messages":[{"role":"user","content":"x"}]}`, http.StatusBadRequest},
 		{"missing messages", key, `{"model":"openai/gpt-4o-mini"}`, http.StatusBadRequest},
-		{"unconfigured provider", key, `{"model":"deepseek/deepseek-chat-v3.2","messages":[{"role":"user","content":"x"}]}`, http.StatusServiceUnavailable},
+		{"unconfigured provider", key, `{"model":"deepseek/deepseek-v4-pro","messages":[{"role":"user","content":"x"}]}`, http.StatusServiceUnavailable},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -287,12 +289,110 @@ func TestModelsEndpoint(t *testing.T) {
 			if m.ContextLength != 1000000 {
 				t.Errorf("context = %d", m.ContextLength)
 			}
-			if m.Pricing.Prompt != "0.000003" {
+			if m.Pricing.Prompt != "0.000002" {
 				t.Errorf("prompt price = %q", m.Pricing.Prompt)
 			}
 		}
 	}
 	if !found {
 		t.Error("claude-sonnet-5 missing from catalog")
+	}
+}
+
+func TestModelEndpointsAPI(t *testing.T) {
+	base, _ := newTestServer(t)
+	resp, err := http.Get(base + "/api/v1/models/meta-llama/llama-3.3-70b-instruct/endpoints")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("status = %d", resp.StatusCode)
+	}
+	var body struct {
+		Data struct {
+			ID        string `json:"id"`
+			Endpoints []struct {
+				Name         string  `json:"name"`
+				ProviderName string  `json:"provider_name"`
+				Quantization *string `json:"quantization"`
+				Pricing      struct {
+					Prompt string `json:"prompt"`
+				} `json:"pricing"`
+			} `json:"endpoints"`
+		} `json:"data"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&body); err != nil {
+		t.Fatal(err)
+	}
+	if body.Data.ID != "meta-llama/llama-3.3-70b-instruct" {
+		t.Errorf("id = %s", body.Data.ID)
+	}
+	if len(body.Data.Endpoints) < 3 {
+		t.Fatalf("endpoints = %d, want at least 3", len(body.Data.Endpoints))
+	}
+	var together *struct {
+		Name         string  `json:"name"`
+		ProviderName string  `json:"provider_name"`
+		Quantization *string `json:"quantization"`
+		Pricing      struct {
+			Prompt string `json:"prompt"`
+		} `json:"pricing"`
+	}
+	for i := range body.Data.Endpoints {
+		if body.Data.Endpoints[i].ProviderName == "together" {
+			together = &body.Data.Endpoints[i]
+		}
+	}
+	if together == nil {
+		t.Fatal("together endpoint missing")
+	}
+	if together.Quantization == nil || *together.Quantization != "fp8" {
+		t.Errorf("quantization = %v", together.Quantization)
+	}
+	if together.Pricing.Prompt != "0.00000088" {
+		t.Errorf("prompt price override = %s", together.Pricing.Prompt)
+	}
+
+	resp2, err := http.Get(base + "/api/v1/models/nope/nothing/endpoints")
+	if err != nil {
+		t.Fatal(err)
+	}
+	resp2.Body.Close()
+	if resp2.StatusCode != http.StatusNotFound {
+		t.Errorf("unknown model status = %d", resp2.StatusCode)
+	}
+}
+
+func TestProvidersAPI(t *testing.T) {
+	base, _ := newTestServer(t)
+	resp, err := http.Get(base + "/api/v1/providers")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+	var body struct {
+		Data []struct {
+			Name string `json:"name"`
+			Slug string `json:"slug"`
+		} `json:"data"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&body); err != nil {
+		t.Fatal(err)
+	}
+	if len(body.Data) < 10 {
+		t.Fatalf("providers = %d", len(body.Data))
+	}
+	seen := map[string]bool{}
+	for _, p := range body.Data {
+		if p.Name == "" || p.Slug == "" {
+			t.Errorf("provider with empty fields: %+v", p)
+		}
+		seen[p.Slug] = true
+	}
+	for _, want := range []string{"openai", "anthropic", "groq", "deepinfra"} {
+		if !seen[want] {
+			t.Errorf("missing provider %s", want)
+		}
 	}
 }

@@ -177,6 +177,74 @@ func (h *Handler) Models(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, map[string]any{"data": h.Catalog.List()})
 }
 
+// ModelEndpoints handles GET /api/v1/models/{author}/{slug}/endpoints.
+func (h *Handler) ModelEndpoints(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("author") + "/" + r.PathValue("slug")
+	m := h.Catalog.Get(id)
+	if m == nil {
+		WriteError(w, http.StatusNotFound, fmt.Sprintf("no model named %q", id), nil)
+		return
+	}
+	eps := make([]map[string]any, 0, len(m.Endpoints))
+	for _, e := range m.Endpoints {
+		prompt := e.PromptPrice
+		if prompt == "" {
+			prompt = m.Pricing.Prompt
+		}
+		completion := e.CompletionPrice
+		if completion == "" {
+			completion = m.Pricing.Completion
+		}
+		ctxLen := e.ContextLength
+		if ctxLen == 0 {
+			ctxLen = m.ContextLength
+		}
+		params := e.SupportedParams
+		if len(params) == 0 {
+			params = m.SupportedParams
+		}
+		var maxOut *int
+		if e.MaxCompletionTokens > 0 {
+			maxOut = &e.MaxCompletionTokens
+		} else {
+			maxOut = m.TopProvider.MaxCompletionTokens
+		}
+		var quant *string
+		if e.Quantization != "" {
+			quant = &e.Quantization
+		}
+		eps = append(eps, map[string]any{
+			"name":                  e.Provider + " | " + m.ID,
+			"provider_name":         e.Provider,
+			"context_length":        ctxLen,
+			"max_completion_tokens": maxOut,
+			"max_prompt_tokens":     nil,
+			"quantization":          quant,
+			"pricing": map[string]string{
+				"prompt":     prompt,
+				"completion": completion,
+				"request":    m.Pricing.Request,
+				"image":      m.Pricing.Image,
+			},
+			"supported_parameters": params,
+			"status":               0,
+		})
+	}
+	writeJSON(w, http.StatusOK, map[string]any{"data": map[string]any{
+		"id":           m.ID,
+		"name":         m.Name,
+		"created":      m.Created,
+		"description":  m.Description,
+		"architecture": m.Architecture,
+		"endpoints":    eps,
+	}})
+}
+
+// Providers handles GET /api/v1/providers.
+func (h *Handler) Providers(w http.ResponseWriter, r *http.Request) {
+	writeJSON(w, http.StatusOK, map[string]any{"data": catalog.Providers})
+}
+
 // Generation handles GET /api/v1/generation?id=.
 func (h *Handler) Generation(w http.ResponseWriter, r *http.Request) {
 	key := h.authenticate(w, r)
