@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"sort"
 	"strconv"
+	"strings"
 	"sync"
 )
 
@@ -57,10 +58,33 @@ type TopProvider struct {
 
 // EndpointDef maps a model to an upstream: which provider slug serves it,
 // under which upstream model name, in which API dialect.
+// Pricing and limits override the model-level values when set.
 type EndpointDef struct {
-	Provider string `json:"provider"`
-	Dialect  string `json:"dialect"`
-	Model    string `json:"model"`
+	Provider            string   `json:"provider"`
+	Dialect             string   `json:"dialect"`
+	Model               string   `json:"model"`
+	Quantization        string   `json:"quantization,omitempty"`
+	ContextLength       int      `json:"context_length,omitempty"`
+	MaxCompletionTokens int      `json:"max_completion_tokens,omitempty"`
+	PromptPrice         string   `json:"prompt_price,omitempty"`
+	CompletionPrice     string   `json:"completion_price,omitempty"`
+	SupportedParams     []string `json:"supported_parameters,omitempty"`
+}
+
+// PromptPriceMicrocents returns the endpoint override or the model price.
+func (e *EndpointDef) PromptPriceMicrocents(m *Model) int64 {
+	if e.PromptPrice != "" {
+		return toMicrocents(e.PromptPrice)
+	}
+	return m.PromptPriceMicrocents()
+}
+
+// CompletionPriceMicrocents returns the endpoint override or the model price.
+func (e *EndpointDef) CompletionPriceMicrocents(m *Model) int64 {
+	if e.CompletionPrice != "" {
+		return toMicrocents(e.CompletionPrice)
+	}
+	return m.CompletionPriceMicrocents()
 }
 
 // seedModel is the on-disk JSON shape (Model plus endpoints).
@@ -74,6 +98,18 @@ type Catalog struct {
 	mu     sync.RWMutex
 	models map[string]*Model
 	order  []string
+}
+
+// SplitVariant separates author/slug from a routing :variant suffix.
+// Unknown suffixes stay part of the model id.
+func SplitVariant(model string) (base, variant string) {
+	if i := strings.LastIndex(model, ":"); i > 0 {
+		switch v := model[i+1:]; v {
+		case "free", "nitro", "floor", "extended", "thinking", "online":
+			return model[:i], v
+		}
+	}
+	return model, ""
 }
 
 // Load parses the embedded seed.

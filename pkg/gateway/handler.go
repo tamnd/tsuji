@@ -68,15 +68,40 @@ func (h *Handler) ChatCompletions(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	model := h.Catalog.Get(strings.TrimSuffix(req.Model, ":free"))
-	if model == nil {
-		WriteError(w, http.StatusNotFound, fmt.Sprintf("no model named %q", req.Model), nil)
-		return
+	// Resolve the requested model, then the models[] fallback list in order.
+	// A model whose endpoints are all unconfigured is skipped; the request
+	// fails only when nothing in the chain can be dialed.
+	var model *catalog.Model
+	var up *Upstream
+	var lastDialErr error
+	seenAny := false
+	for _, id := range append([]string{req.Model}, req.Models...) {
+		base, _ := catalog.SplitVariant(id)
+		m := h.Catalog.Get(base)
+		if m == nil {
+			continue
+		}
+		seenAny = true
+		reqCopy := req
+		reqCopy.Model = id
+		u, err := h.Dialer.Dial(r.Context(), m, &reqCopy)
+		if err != nil {
+			lastDialErr = err
+			continue
+		}
+		model, up = m, u
+		break
 	}
-
-	up, err := h.Dialer.Dial(r.Context(), model, &req)
-	if err != nil {
-		WriteError(w, http.StatusServiceUnavailable, "no provider available for "+model.ID+": "+err.Error(), nil)
+	if model == nil {
+		if !seenAny {
+			WriteError(w, http.StatusNotFound, fmt.Sprintf("no model named %q", req.Model), nil)
+			return
+		}
+		msg := "no provider available for " + req.Model
+		if lastDialErr != nil {
+			msg += ": " + lastDialErr.Error()
+		}
+		WriteError(w, http.StatusServiceUnavailable, msg, nil)
 		return
 	}
 
