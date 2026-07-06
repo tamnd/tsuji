@@ -11,6 +11,16 @@ const nav = [
 
 export default function Shell() {
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [dark, setDark] = useState(() =>
+    document.documentElement.classList.contains("dark"),
+  );
+
+  const toggleTheme = () => {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.classList.toggle("dark", next);
+    localStorage.setItem("tsuji-theme", next ? "dark" : "light");
+  };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -55,7 +65,14 @@ export default function Shell() {
                 {n.label}
               </NavLink>
             ))}
-            <button className="ml-2 rounded-lg bg-accent px-3 py-1.5 font-medium text-white transition-colors hover:bg-accent-soft">
+            <button
+              onClick={toggleTheme}
+              title={dark ? "Switch to light theme" : "Switch to dark theme"}
+              className="ml-1 rounded-lg px-2 py-1.5 text-mute transition-colors hover:bg-raise hover:text-ink"
+            >
+              {dark ? <SunIcon /> : <MoonIcon />}
+            </button>
+            <button className="ml-1 rounded-lg bg-accent px-3 py-1.5 font-medium text-white transition-colors hover:bg-accent-soft">
               Sign in
             </button>
           </nav>
@@ -108,6 +125,23 @@ export default function Shell() {
 
       {paletteOpen && <CommandPalette onClose={() => setPaletteOpen(false)} />}
     </div>
+  );
+}
+
+function SunIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+    </svg>
   );
 }
 
