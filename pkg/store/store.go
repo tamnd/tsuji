@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS keys (
 CREATE TABLE IF NOT EXISTS generations (
 	id TEXT PRIMARY KEY,
 	key_id INTEGER NOT NULL REFERENCES keys(id),
+	parent_id TEXT NOT NULL DEFAULT '',
 	model_requested TEXT NOT NULL,
 	model_served TEXT NOT NULL,
 	provider TEXT NOT NULL,
@@ -68,5 +69,11 @@ CREATE TABLE IF NOT EXISTS generations (
 );
 CREATE INDEX IF NOT EXISTS idx_generations_key_created ON generations(key_id, created_at);
 `)
-	return err
+	if err != nil {
+		return err
+	}
+	// Databases created before the fusion milestone lack parent_id.
+	// sqlite has no ADD COLUMN IF NOT EXISTS, so ignore the duplicate error.
+	_, _ = s.db.Exec(`ALTER TABLE generations ADD COLUMN parent_id TEXT NOT NULL DEFAULT ''`)
+	return nil
 }

@@ -2254,5 +2254,134 @@
     "completion_price": "0.0000005"
    }
   ]
+ },
+ {
+  "id": "tsuji/fusion",
+  "name": "Tsuji: Fusion",
+  "created": 1782000000,
+  "description": "A panel of frontier models answers your prompt in parallel, a judge compares the answers for agreement and contradiction, and a writer composes the final response from the panel plus the judge's notes. Billed as the sum of the underlying calls; listed prices are zero because cost depends on the panel.",
+  "context_length": 200000,
+  "architecture": {
+   "modality": "text->text",
+   "input_modalities": [
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Other",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0",
+   "completion": "0",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 200000,
+   "max_completion_tokens": null,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "max_tokens",
+   "seed",
+   "temperature",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "tsuji",
+    "dialect": "tsuji",
+    "model": "fusion"
+   }
+  ]
+ },
+ {
+  "id": "tsuji/fusion-budget",
+  "name": "Tsuji: Fusion Budget",
+  "created": 1782000000,
+  "description": "The fusion pipeline on a panel of inexpensive models. Same panel, judge, and writer flow as tsuji/fusion, tuned so the summed cost stays close to a single frontier-model call.",
+  "context_length": 200000,
+  "architecture": {
+   "modality": "text->text",
+   "input_modalities": [
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Other",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0",
+   "completion": "0",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 200000,
+   "max_completion_tokens": null,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "max_tokens",
+   "seed",
+   "temperature",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "tsuji",
+    "dialect": "tsuji",
+    "model": "fusion-budget"
+   }
+  ]
+ },
+ {
+  "id": "tsuji/fusion-fast",
+  "name": "Tsuji: Fusion Fast",
+  "created": 1782000000,
+  "description": "The fusion pipeline on a small panel of low-latency models. Trades panel breadth for speed; the writer starts sooner because the slowest panel member is still fast.",
+  "context_length": 200000,
+  "architecture": {
+   "modality": "text->text",
+   "input_modalities": [
+    "text"
+   ],
+   "output_modalities": [
+    "text"
+   ],
+   "tokenizer": "Other",
+   "instruct_type": null
+  },
+  "pricing": {
+   "prompt": "0",
+   "completion": "0",
+   "request": "0",
+   "image": "0"
+  },
+  "top_provider": {
+   "context_length": 200000,
+   "max_completion_tokens": null,
+   "is_moderated": false
+  },
+  "per_request_limits": null,
+  "supported_parameters": [
+   "max_tokens",
+   "seed",
+   "temperature",
+   "top_p"
+  ],
+  "endpoints": [
+   {
+    "provider": "tsuji",
+    "dialect": "tsuji",
+    "model": "fusion-fast"
+   }
+  ]
  }
 ]

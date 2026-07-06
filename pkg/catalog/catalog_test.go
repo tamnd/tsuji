@@ -15,7 +15,7 @@ func TestSeedLoads(t *testing.T) {
 		t.Fatalf("seed has %d models, want at least 35", len(models))
 	}
 
-	knownDialects := []string{"openai", "anthropic"}
+	knownDialects := []string{"openai", "anthropic", "tsuji"}
 	providerSlugs := map[string]bool{}
 	for _, p := range Providers {
 		providerSlugs[p.Slug] = true

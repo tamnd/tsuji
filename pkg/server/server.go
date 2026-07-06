@@ -13,6 +13,7 @@ import (
 
 	"github.com/tamnd/tsuji/pkg/catalog"
 	"github.com/tamnd/tsuji/pkg/config"
+	"github.com/tamnd/tsuji/pkg/fusion"
 	"github.com/tamnd/tsuji/pkg/gateway"
 	"github.com/tamnd/tsuji/pkg/route"
 	"github.com/tamnd/tsuji/pkg/store"
@@ -43,10 +44,32 @@ func New(cfg *config.Config) (*Server, error) {
 	}
 
 	s := &Server{cfg: cfg, store: st}
+
+	// The fusion engine sits in front of the router: it serves tsuji/fusion*
+	// itself and hands every other model straight through.
+	presets := fusion.DefaultPresets()
+	for name, p := range cfg.Fusion {
+		base := presets[name]
+		if len(p.Panel) > 0 {
+			base.Panel = p.Panel
+		}
+		if p.Judge != "" {
+			base.Judge = p.Judge
+		}
+		if p.Writer != "" {
+			base.Writer = p.Writer
+		}
+		presets[name] = base
+	}
 	gw := &gateway.Handler{
 		Store:   st,
 		Catalog: cat,
-		Dialer:  route.New(cfg),
+		Dialer: &fusion.Engine{
+			Catalog: cat,
+			Store:   st,
+			Next:    route.New(cfg),
+			Presets: presets,
+		},
 	}
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", s.handleHealthz)

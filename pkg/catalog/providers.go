@@ -26,4 +26,6 @@ var Providers = []ProviderInfo{
 	{Name: "Alibaba Model Studio", Slug: "alibaba", PrivacyPolicyURL: new("https://www.alibabacloud.com/help/en/legal/latest/alibaba-cloud-international-website-privacy-policy")},
 	{Name: "Z.ai", Slug: "zai", PrivacyPolicyURL: new("https://z.ai/model-api/terms-of-service")},
 	{Name: "MiniMax", Slug: "minimax", PrivacyPolicyURL: new("https://www.minimax.io/platform/protocol/privacy-policy")},
+	// tsuji itself serves the fusion meta-models.
+	{Name: "Tsuji", Slug: "tsuji"},
 }
